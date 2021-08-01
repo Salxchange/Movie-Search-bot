@@ -1,6 +1,7 @@
 # Modified Version Of [Media Search bot](https://github.com/Mahesh0253/Media-Search-bot)
 
 ## Added Features
+* Screenshot command (Send `/ss` as a reply to the movie files) 
 * Imdb posters for autofilter.
 * Custom captions for your files.
 * Index command to index all the files in a given channel (No USER_SESSION Required).
@@ -13,7 +14,7 @@
 ## Installation
 
 ### Easy Way
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/subinps/Media-Search-bot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/samadii/Movie-Search-bot)
 ### Hard Way
 
 ```bash
