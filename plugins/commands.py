@@ -260,7 +260,7 @@ async def generatescreenshots(bot, update):
             media_album_p = []
             if images is not None:
                 i = 0
-                caption = "Made With Love @subinps"
+                caption = "Made With Love **Movie Search Bot**"
                 for image in images:
                     if os.path.exists(image):
                         if i == 0:
