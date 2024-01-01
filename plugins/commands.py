@@ -107,8 +107,8 @@ async def start(bot, cmd):
                 ]
             )
         )
-    else:
-await cmd.reply_photo(
+ else:
+      await cmd.reply_photo(
     photo=open('https://telegra.ph/file/521fda81c8ef2b5648c7a.jpg', 'rb'),
     caption=START_MSG,
     parse_mode="Markdown",
