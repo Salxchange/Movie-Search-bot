@@ -7,11 +7,11 @@ from utils import Media, get_file_details
 from pyrogram.errors import UserNotParticipant
 logger = logging.getLogger(__name__)
 from helper_funcs.display_progress import progress_for_pyrogram
-from helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
+from helper_funcs.help_Nekmo_ffmpeg import take_screen_shot import generate_sample_video
 import time
 from pyrogram.types import InputMediaPhoto
 import shutil
-from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots
+from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots import generate_videos
 
 class Config(object):
     DOWNLOAD_LOCATION = "./DOWNLOADS"
@@ -302,3 +302,73 @@ async def generatescreenshots(bot, update):
             text=Translation.REPLY_TO_DOC_FOR_SCSS,
             reply_to_message_id=update.message_id
         ) 
+
+@Client.on_message(filters.command("samplevideo"))
+async def generatevideos(bot, update):
+    if update.reply_to_message is not None:
+        download_location = Config.DOWNLOAD_LOCATION + "/"
+        a = await bot.send_message(
+            chat_id=update.chat.id,
+            text=Translation.DOWNLOAD_START,
+            reply_to_message_id=update.message_id
+        )
+        c_time = time.time()
+        the_real_download_location = await bot.download_media(
+            message=update.reply_to_message,
+            file_name=download_location,
+            progress=progress_for_pyrogram,
+            progress_args=(
+                Translation.DOWNLOAD_START,
+                a,
+                c_time
+            )
+        )
+        if the_real_download_location is not None:
+            await bot.edit_message_text(
+                text="File successfully downloaded. Now processing videos.",
+                chat_id=update.chat.id,
+                message_id=a.message_id
+            )
+            tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
+            if not os.path.isdir(tmp_directory_for_each_user):
+                os.makedirs(tmp_directory_for_each_user)
+            videos = await generate_videos(
+                the_real_download_location,
+                tmp_directory_for_each_user,
+                False,
+                None,
+                5,  # Number of videos
+                9  # Duration of each sample video
+            )
+            await bot.edit_message_text(
+                text=Translation.UPLOAD_START,
+                chat_id=update.chat.id,
+                message_id=a.message_id
+            )
+            media_group_videos = []
+            if videos is not None:
+                for video in videos:
+                    # Add logic to handle video creation and processing
+                    # Append video media to media_group_videos
+                    ...
+            await bot.send_media_group(
+                chat_id=update.chat.id,
+                disable_notification=False,
+                reply_to_message_id=a.message_id,
+                media=media_group_videos
+            )
+            #
+            # Add logic to clean up temporary files
+            ...
+            await bot.edit_message_text(
+                text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
+                chat_id=update.chat.id,
+                message_id=a.message_id,
+                disable_web_page_preview=True
+            )
+    else:
+        await bot.send_message(
+            chat_id=update.chat.id,
+            text=Translation.REPLY_TO_DOC_FOR_SCSS,
+            reply_to_message_id=update.message_id
+        )
