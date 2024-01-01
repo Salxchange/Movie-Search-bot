@@ -185,7 +185,7 @@ async def generate_sample_video(
     else:
         return None
 
-  async def generate_videos(
+async def generate_videos(
     video_file,
     output_directory,
     is_watermarkable,
