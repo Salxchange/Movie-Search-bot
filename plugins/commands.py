@@ -2,7 +2,7 @@ import os
 import logging
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from info import START_MSG, CHANNELS, ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION
+from info import START_MSG, CHANNELS, ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION, START_PIC
 from utils import Media, get_file_details
 from pyrogram.errors import UserNotParticipant
 logger = logging.getLogger(__name__)
@@ -112,7 +112,7 @@ async def start(bot, cmd):
             START_MSG,
             parse_mode="Markdown",
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
+            button=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton("Search Here", switch_inline_query_current_chat=''),
@@ -124,8 +124,11 @@ async def start(bot, cmd):
                 ]
             )
         )
-
-
+        if START_PIC:
+        await message.reply_photo(START_PIC, caption=cmd.text(user.mention), reply_markup=button)
+    else:
+        await message.reply_text(text=cmd.text(user.mention), reply_markup=button, disable_web_page_preview=True)
+        )
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
     """Send basic information of channel"""
