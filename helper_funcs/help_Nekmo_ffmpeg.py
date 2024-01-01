@@ -153,3 +153,63 @@ async def generate_screen_shots(
         return images
     else:
         return None
+
+          async def generate_sample_video(
+    video_file,
+    output_directory,
+    start_time,
+    end_time
+):
+    out_put_file_name = output_directory + "/" + str(round(time.time())) + "_sample.mp4"
+    file_generator_command = [
+        "ffmpeg",
+        "-i",
+        video_file,
+        "-ss",
+        start_time,
+        "-to",
+        end_time,
+        out_put_file_name
+    ]
+    process = await asyncio.create_subprocess_exec(
+        *file_generator_command,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    # Wait for the subprocess to finish
+    stdout, stderr = await process.communicate()
+    e_response = stderr.decode().strip()
+    t_response = stdout.decode().strip()
+    if os.path.lexists(out_put_file_name):
+        return out_put_file_name
+    else:
+        return None
+
+  async def generate_videos(
+    video_file,
+    output_directory,
+    is_watermarkable,
+    wf,
+    min_duration,
+    no_of_videos
+):
+    metadata = extractMetadata(createParser(video_file))
+    duration = 0
+    if metadata is not None:
+        if metadata.has("duration"):
+            duration = metadata.get('duration').seconds
+    if duration > min_duration:
+        videos = []
+        time_step = duration // no_of_videos
+        current_time = 0
+        for _ in range(0, no_of_videos):
+            start_time = current_time
+            end_time = current_time + time_step
+            sample_video = await generate_sample_video(video_file, output_directory, start_time, end_time)
+            if is_watermarkable:
+                sample_video = await place_water_mark(sample_video, output_directory + "/" + str(round(time.time())) + ".mp4", wf)
+            videos.append(sample_video)
+            current_time += time_step
+        return videos
+    else:
+        return None
