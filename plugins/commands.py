@@ -124,7 +124,7 @@ async def start(bot, cmd):
                 ]
             )
         )
-        if START_PIC:
+if START_PIC:
         await message.reply_photo(START_PIC, caption=cmd.text(user.mention), reply_markup=button)
     else:
         await message.reply_text(text=cmd.text(user.mention), reply_markup=button, disable_web_page_preview=True)
