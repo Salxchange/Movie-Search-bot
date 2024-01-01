@@ -7,11 +7,11 @@ from utils import Media, get_file_details
 from pyrogram.errors import UserNotParticipant
 logger = logging.getLogger(__name__)
 from helper_funcs.display_progress import progress_for_pyrogram
-from helper_funcs.help_Nekmo_ffmpeg import take_screen_shot import generate_sample_video
+from helper_funcs.help_Nekmo_ffmpeg import take_screen_shot, generate_sample_video
 import time
 from pyrogram.types import InputMediaPhoto
 import shutil
-from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots import generate_videos
+from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots, generate_videos
 
 class Config(object):
     DOWNLOAD_LOCATION = "./DOWNLOADS"
