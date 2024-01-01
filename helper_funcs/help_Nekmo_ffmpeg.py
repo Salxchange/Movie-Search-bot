@@ -154,7 +154,7 @@ async def generate_screen_shots(
     else:
         return None
 
-          async def generate_sample_video(
+async def generate_sample_video(
     video_file,
     output_directory,
     start_time,
