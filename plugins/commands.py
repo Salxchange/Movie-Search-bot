@@ -107,24 +107,24 @@ async def start(bot, cmd):
                 ]
             )
         )
- else:
-      await cmd.reply_photo(
-    photo=open('https://telegra.ph/file/521fda81c8ef2b5648c7a.jpg', 'rb'),
-    caption=START_MSG,
-    parse_mode="Markdown",
-    disable_web_page_preview=True,
-    reply_markup=InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("Search Here", switch_inline_query_current_chat=''),
-                InlineKeyboardButton("Go Inline", switch_inline_query='')
-            ],
-            [
-                InlineKeyboardButton("About", callback_data="about")
-            ]
-        ]
-     )
- )
+    else:
+          await cmd.reply_photo(
+               photo=open('path_to_image.jpg', 'rb'),
+               caption=START_MSG,
+               parse_mode="Markdown",
+               disable_web_page_preview=True,
+               reply_markup=InlineKeyboardMarkup(
+                   [
+                        [
+                        InlineKeyboardButton("Search Here", switch_inline_query_current_chat=''),
+                        InlineKeyboardButton("Go Inline", switch_inline_query='')
+                        ],
+                        [
+                       InlineKeyboardButton("About", callback_data="about")
+                     ]
+                ]
+           )
+      )
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
     """Send basic information of channel"""
